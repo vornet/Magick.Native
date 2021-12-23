@@ -137,6 +137,29 @@ jobs:
         name: linux-musl
         path: artifacts
 
+  linux_arm64:
+      name: 'Linux-Arm64'
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    - run: docker run --rm -t arm64v8/ubuntu uname -m
+
+    - run: docker build --platform linux/arm64/v8 -f src/ImageMagick/build/Arm64.Dockerfile . -t temp
+    - run: docker run -v artifacts/:artifacts/ temp
+
+    - name: Upload library
+      uses: actions/upload-artifact@v1
+      with:
+        name: linuxArm64
+        path: artifacts
+
   macos:
     name: 'MacOS'
     runs-on: macos-latest

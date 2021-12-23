@@ -14,16 +14,16 @@ RUN ./checkout.sh linux ../../../artifacts
 
 # Build libraries
 WORKDIR /src/ImageMagick/libraries
-RUN ../../../build/linux/build.libraries.sh ../../../build/libraries
+RUN ../../../build/linux-arm64/build.libraries.sh ../../../build/libraries
 
 # Build ImageMagick
 WORKDIR /src/ImageMagick/libraries
-RUN ../../../build/linux/build.ImageMagick.sh
+RUN ../../../build/linux-arm64/build.ImageMagick.sh
 
 # Build Native
 WORKDIR /src/Magick.Native
-RUN ../../build/linux/build.Native.sh
+RUN ../../build/linux-arm64/build.Native.sh
 
 # Copy Native
 WORKDIR /src/Magick.Native
-CMD ../../build/linux/copy.Native.sh ../../artifacts
+CMD ../../build/linux-arm64/copy.Native.sh ../../artifacts

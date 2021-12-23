@@ -15,3 +15,6 @@ ninja install
 if [ -d /usr/local/lib/x86_64-linux-gnu ]; then
   cp /usr/local/lib/x86_64-linux-gnu/*.a /usr/local/lib/
 fi
+if [ -d /usr/local/lib/aarch64-linux-gnu ]; then
+  cp /usr/local/lib/aarch64-linux-gnu/*.a /usr/local/lib/
+fi

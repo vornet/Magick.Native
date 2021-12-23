@@ -152,12 +152,12 @@ jobs:
     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     - run: docker run --rm -t arm64v8/ubuntu uname -m
     - run: docker build --platform linux/arm64/v8 -f src/ImageMagick/build/Arm64.Dockerfile . -t temp
-    - run: docker run -v artifacts/:artifacts/ temp
+    - run: docker run -v $(pwd)/artifacts/:/artifacts/ temp
 
     - name: Upload library
       uses: actions/upload-artifact@v1
       with:
-        name: linuxArm64
+        name: linux-arm64
         path: artifacts
 
   macos:
@@ -454,12 +454,51 @@ jobs:
     - name: Verify Native
       run: build/linux-musl/verify.Native.sh .
 
+  verify_linux_arm64:
+    name: 'Verify Linux Arm64'
+    needs:
+      - linux_arm64
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        image:
+          - 'ubuntu:16.04'
+          - 'ubuntu:18.04'
+          - 'ubuntu:20.04'
+          - 'ubuntu:latest'
+          - 'centos:7'
+          - 'centos:8'
+          - 'centos:latest'
+          - 'mcr.microsoft.com/dotnet/aspnet:latest'
+          - 'mcr.microsoft.com/dotnet/runtime:3.1'
+          - 'mcr.microsoft.com/dotnet/runtime:latest'
+
+    container:
+      image: ${{ matrix.image }}
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Download linux library
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-arm64
+
+    - name: Verify Native
+      run: build/linux-arm64/verify.Native.sh .
+
   publish_dotnet:
     name: 'Publish .NET library'
     needs:
       - verify_linux
       - verify_linux_openmp
       - verify_linux_musl
+      - verify_linux_arm64
       - macos
       - windows
       - metadata
@@ -493,6 +532,12 @@ jobs:
       with:
         name: linux-musl
         path: publish\dotnet\files\linux-musl
+
+    - name: Download linux arm64 library
+      uses: actions/download-artifact@v1
+      with:
+        name: linux-arm64
+        path: publish\dotnet\files\linux-arm64
 
     - name: Download macos library
       uses: actions/download-artifact@v1
@@ -528,7 +573,7 @@ jobs:
       run: |
         dotnet tool install gpr -g
         $file = Get-ChildItem -Path . -Recurse -Filter *.nupkg | Select -First 1
-        gpr push $file.FullName -r dlemstra/Magick.Native -k ${{ secrets.GITHUB_TOKEN }}
+        gpr push $file.FullName -r vornet/Magick.Native -k ${{ secrets.GITHUB_TOKEN }}
 
   publish_wasm:
     name: 'Publish WASM library'

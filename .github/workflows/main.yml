@@ -138,8 +138,8 @@ jobs:
         name: linux-musl
         path: artifacts
 
-  linux_arm64:
-    name: 'Linux-Arm64'
+  linux_arm64_1:
+    name: 'Linux-Arm64-1'
     runs-on: ubuntu-latest
 
     steps:
@@ -150,10 +150,61 @@ jobs:
         fetch-depth: 1
 
     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-    - run: docker run --rm -t arm64v8/ubuntu uname -m
-    - run: docker build --platform linux/arm64/v8 -f src/ImageMagick/build/Arm64.Dockerfile . -t temp
-    - run: docker run -v $(pwd)/artifacts/:/artifacts/ temp
+    - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+    - run: docker build --platform linux/arm64/v8 -f src/ImageMagick/build/Arm64_1.Dockerfile . -t ghcr.io/vornet/magicnative_arm64_1:latest
+    - run: docker push ghcr.io/vornet/magicnative_arm64_1:latest
 
+  linux_arm64_2:  
+    name: 'Linux-Arm64-2'
+    needs:
+      - linux_arm64_1
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+    - run: docker build --platform linux/arm64/v8 -f src/ImageMagick/build/Arm64_2.Dockerfile . -t ghcr.io/vornet/magicnative_arm64_2:latest
+    - run: docker push ghcr.io/vornet/magicnative_arm64_2:latest
+
+  linux_arm64_3:  
+    name: 'Linux-Arm64-3'
+    needs:
+      - linux_arm64_2
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+    - run: docker build --platform linux/arm64/v8 -f src/ImageMagick/build/Arm64_3.Dockerfile . -t ghcr.io/vornet/magicnative_arm64_3:latest
+    - run: docker push ghcr.io/vornet/magicnative_arm64_3:latest
+
+  linux_arm64_4:  
+    name: 'Linux-Arm64-4'
+    needs:
+      - linux_arm64_3
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+    - run: docker build --platform linux/arm64/v8 -f src/ImageMagick/build/Arm64_4.Dockerfile . -t ghcr.io/vornet/magicnative_arm64_4:latest
+    - run: docker push ghcr.io/vornet/magicnative_arm64_4:latest
+
+  linux_arm64_5:  
+    name: 'Linux-Arm64-5'
+    needs:
+      - linux_arm64_4
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+    - run: docker build --platform linux/arm64/v8 -f src/ImageMagick/build/Arm64_5.Dockerfile . -t ghcr.io/vornet/magicnative_arm64_5:latest
+    - run: docker run -v $(pwd)/artifacts/:/artifacts/ ghcr.io/vornet/magicnative_arm64_5:latest
     - name: Upload library
       uses: actions/upload-artifact@v1
       with:
@@ -457,7 +508,7 @@ jobs:
   verify_linux_arm64:
     name: 'Verify Linux Arm64'
     needs:
-      - linux_arm64
+      - linux_arm64_5
     runs-on: ubuntu-latest
 
     strategy:

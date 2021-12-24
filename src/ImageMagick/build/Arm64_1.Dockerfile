@@ -2,7 +2,7 @@ FROM arm64v8/ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY /build/linux-arm64/ /build/linux-arm64/
+COPY . .
 
 # Install dependencies
 WORKDIR /build/linux-arm64

@@ -162,6 +162,11 @@ jobs:
 
     steps:
 
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
     - run: docker build --platform linux/arm64/v8 -f src/ImageMagick/build/Arm64_2.Dockerfile . -t ghcr.io/vornet/magicnative_arm64_2:latest
@@ -174,6 +179,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
 
     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
@@ -188,6 +198,11 @@ jobs:
 
     steps:
 
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
     - run: docker build --platform linux/arm64/v8 -f src/ImageMagick/build/Arm64_4.Dockerfile . -t ghcr.io/vornet/magicnative_arm64_4:latest
@@ -200,6 +215,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
 
     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin

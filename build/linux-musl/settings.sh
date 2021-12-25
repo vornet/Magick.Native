@@ -9,8 +9,12 @@ export CONDITIONAL_DISABLE_SHARED=""
 export PKG_PATH="/usr/local/lib/pkgconfig"
 export SIMD_OPTIONS="-DWITH_SIMD=1"
 export SSE_OPTIONS=""
+
+export FFI_OPTIONS="--disable-exec-static-tramp"
 export FONTCONFIG_OPTIONS=""
+export GLIB_OPTIONS=""
 export LIBXML_OPTIONS=""
-export WEBP_OPTIONS="--enable-libwebpmux --enable-libwebpdemux"
 export OPENEXR_OPTIONS=""
+export WEBP_OPTIONS="--enable-libwebpmux --enable-libwebpdemux"
+
 export IMAGEMAGICK_OPTIONS="--disable-openmp"

@@ -570,7 +570,7 @@ jobs:
       - verify_linux_openmp
       - verify_linux_musl
       - verify_linux_arm64
-      - macos
+#      - macos
       - windows
       - metadata
     runs-on: windows-latest
@@ -610,11 +610,11 @@ jobs:
         name: linux-arm64
         path: publish\dotnet\files\linux-arm64
 
-    - name: Download macos library
-      uses: actions/download-artifact@v1
-      with:
-        name: macos
-        path: publish\dotnet\files\macos
+    # - name: Download macos library
+    #   uses: actions/download-artifact@v1
+    #   with:
+    #     name: macos
+    #     path: publish\dotnet\files\macos
 
     - name: Download windows library
       uses: actions/download-artifact@v1

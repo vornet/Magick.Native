@@ -561,7 +561,7 @@ jobs:
         name: linux-arm64
 
     - name: Verify Native
-      run: build/linux-arm64/verify.Native.sh .
+      run: chmod +x build/linux-arm64/verify.Native.sh && build/linux-arm64/verify.Native.sh .
 
   publish_dotnet:
     name: 'Publish .NET library'
@@ -673,7 +673,7 @@ jobs:
       with:
         node-version: 12
         registry-url: https://npm.pkg.github.com
-        scope: '@dlemstra'
+        scope: '@vornet'
 
     - name: Create NPM package
       run: ./publish.ps1 -destination artifacts

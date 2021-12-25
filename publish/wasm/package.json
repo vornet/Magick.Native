@@ -1,10 +1,10 @@
 {
-  "name": "@dlemstra/magick-native",
+  "name": "@vornet/magick-native",
   "version": "",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dlemstra/Magick.Native.git"
+    "url": "git+https://github.com/vornet/Magick.Native.git"
   },
   "author": "Dirk Lemstra",
   "license": "Apache-2.0",
